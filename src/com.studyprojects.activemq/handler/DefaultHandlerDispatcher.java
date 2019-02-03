@@ -24,7 +24,7 @@ public class DefaultHandlerDispatcher implements HandlerDispatcher{
     @Override
     public Handler getHandler(ProviderServiceType providerService) {
         if(handlers.containsKey(providerService)) {
-            return applicationContext.getBean(Handler.class, providerService);
+            return (Handler) applicationContext.getBean(handlers.get(providerService));
         }
 
         throw new IllegalArgumentException("Not found bean for: " + providerService);

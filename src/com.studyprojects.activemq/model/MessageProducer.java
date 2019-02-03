@@ -1,22 +1,28 @@
 package com.studyprojects.activemq.model;
 
+import com.studyprojects.activemq.handler.Handler;
 import com.studyprojects.activemq.handler.HandlerDispatcher;
-import lombok.ToString;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-@ToString
+import java.util.List;
+
+@Data
 @Component
 public class MessageProducer {
 
-    private HandlerDispatcher handlerDispatcher;
+    private final List<Handler> handlers;
+    private final HandlerDispatcher handlerDispatcher;
 
     @Autowired
-    public MessageProducer(HandlerDispatcher handlerDispatcher) {
+    public MessageProducer(HandlerDispatcher handlerDispatcher, List<Handler> handlers) {
         this.handlerDispatcher = handlerDispatcher;
+        this.handlers = handlers;
     }
 
-    public void temp(){
-        handlerDispatcher.getHandler(ProviderServiceType.IPM);
+    public void temp(ProviderServiceType providerServiceType) {
+        Handler handler = handlerDispatcher.getHandler(providerServiceType);
+        handler.doSomething();
     }
 }
